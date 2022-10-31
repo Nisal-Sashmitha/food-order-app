@@ -1,0 +1,16 @@
+.row {
+
+}
+.itemlist {
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 20px;
+}
+.itemlist::-webkit-scrollbar {
+    display: none;
+  }
+.title {
+  color: white;
+  padding: 20px;
+}
