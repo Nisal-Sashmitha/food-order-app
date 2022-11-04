@@ -1,0 +1,42 @@
+.header_background{
+    background-size: cover;
+    background-position: center center;
+    color: white;
+    object-fit: contain;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.header_fade{
+    height: 7rem;
+    background-image: linear-gradient(
+
+      rgba(37, 37, 37, 0),
+      rgba(1, 1, 1, 0.99)
+    );
+  }
+
+  .navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    padding:10px 50px 10px 50px;
+  }
+
+  .loginbtn{
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left:20px ;
+    padding: 3px 20px 3px 20px;
+    color: white;
+    background-color: black;
+    transition: transform 350ms;
+    font-weight: bold;
+  }
+  .loginbtn:hover{
+    transform: scale(1.1);
+  }

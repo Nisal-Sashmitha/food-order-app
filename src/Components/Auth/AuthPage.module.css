@@ -1,0 +1,13 @@
+.authpage{
+    display: flex;
+    flex-direction: row;
+    
+}
+.authcoverImage{
+    background-size: cover;
+    background-position: center center;
+    object-fit: contain;
+    height: 100vh;
+    width: 50vw;
+
+}

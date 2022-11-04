@@ -1,0 +1,74 @@
+.auth {
+    height: 100vh;
+    width: 50vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  .authInner{
+    width: 500px;
+    height: 300px;
+  }
+  .auth h1 {
+    text-align: center;
+    color: white;
+  }
+  
+  .control {
+    margin-bottom: 0.5rem;
+  }
+  
+  .control label {
+    display: block;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .control input {
+    font: inherit;
+    background-color: white;
+    color: black;
+ 
+    border: 1px solid white;
+    width: 100%;
+    text-align: left;
+    padding: 0.25rem;
+  }
+  
+  .actions {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .actions button {
+    cursor: pointer;
+    font: inherit;
+    font-weight: bolder;
+    color: black;
+    background-color: white;
+    border: 1px solid white;
+    padding: 0.5rem 2.5rem;
+    transition: transform 300ms;
+  }
+  
+  .actions button:hover {
+    transform: scale(1.09);
+
+  }
+  
+  .actions .toggle {
+    margin-top: 1rem;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0.15rem 1.5rem;
+  }
+  
+  .actions .toggle:hover {
+    background-color: transparent;
+    color: white;
+  }
