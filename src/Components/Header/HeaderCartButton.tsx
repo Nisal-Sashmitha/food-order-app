@@ -1,11 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react';
+import { useSelector } from 'react-redux';
 import CartIcon from '../Cart/CartIcon';
 import classes from './HeaderCartButton.module.css';
-import CartContext from "../../Store/CartContext";
 
 const HeaderCartButton: React.FC<{onClick:()=>void}>=(props:any)=> {
-  const cartCtx = useContext(CartContext);
-  const numberOfCartItems = cartCtx.totalQuantitiy;
+  const numberOfCartItems = useSelector((state:any)=> state.cart.totalQuantitiy)
   return (
     <button className={classes.button} onClick={props.onClick}>
       <span className={classes.icon}>

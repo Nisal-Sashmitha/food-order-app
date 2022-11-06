@@ -10,7 +10,7 @@ const ItemAddToCart: React.FC<{addItemHandler:(amount:number)=>void, removeItemH
     <div>
     {(props?.amount>0) && <button className={classes.btn} onClick={props.removeItemHandler}>-</button>}
       <button className={classes.btn} onClick={addHandler}>
-        <span>{props?.amount>0?props.amount+' ':''}</span>
+        {props?.amount>0?props.amount+' ':''}
         Add
       </button>
     </div>

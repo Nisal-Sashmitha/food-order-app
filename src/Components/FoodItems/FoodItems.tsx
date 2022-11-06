@@ -16,7 +16,7 @@ function FoodItems() {
       const responseData = await response.json();
       const loadedMeals : Items[] = [];
       for (const key in responseData){
-        loadedMeals.push(new Items(key,responseData[key].imgUrl,responseData[key].name,responseData[key].price,responseData[key].description ));
+        loadedMeals.push({id:key, imgUrl:responseData[key].imgUrl, name:responseData[key].name,price:responseData[key].price,description:responseData[key].description });
       }
       setMealItems(loadedMeals);
       setIsLoading(false)
