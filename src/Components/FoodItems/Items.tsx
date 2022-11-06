@@ -7,16 +7,11 @@ import CartContext from '../../Store/CartContext';
 const Items:React.FC<{item:Item}>=(props)=> {
     const cartCtx = useContext(CartContext);
     const addItemHandler = (amount:number)=> cartCtx.addItem({
-      Item:props.item,
+      item:props.item,
       amount:amount
 
     });
-    const removeItemHandler = (amount:number)=> cartCtx.removeItem({
-      Item:props.item,
-      amount:amount
-
-    });
-   
+    const removeItemHandler = ()=> cartCtx.removeItem(props.item.id);
   return (
     // this is a item
     <div className={classes.item}>
@@ -31,7 +26,7 @@ const Items:React.FC<{item:Item}>=(props)=> {
         {/* price and add to cart functionality */}
         <div className={classes.priceAndAddToCart}>
             <h2>${props.item.price}</h2>
-            <ItemAddToCart addItemHandler={addItemHandler}/>
+            <ItemAddToCart addItemHandler={addItemHandler} removeItemHandler={removeItemHandler} amount={cartCtx.items[props.item.id]?cartCtx.items[props.item.id].amount:0}/>
         </div>
         {/* name */}
         <h2 className={classes.name}>{props.item.name}</h2>
