@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import Header from "./Components/Header/Header";
 import FoodItems from "./Components/FoodItems/FoodItems";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Notification from "./Components/UI/Notification";
 import NotificationModel from "./models/notification";
 import { cartActions } from "./Store/cart-slice";
+import useDebouncer from "./hooks/debouncer";
+import useHttp from "./hooks/http";
 
 let isInitial = true;
 
@@ -16,6 +18,14 @@ function App() {
   const authCtx = useContext(AuthContext);
   const cart = useSelector((state: any) => state.cart);
   const dispatch = useDispatch();
+  let debouncedValue = useDebouncer(cart, 700);
+
+  const initialCartLoadRequestMethod =useCallback((data: any) => dispatch(cartActions.replaceCart(data)),[dispatch]);
+
+  const {error:initiateLoadingError , sendRequest:initialCartLoadingSendRequest} = useHttp();
+
+  const {error:cartUpdatingError , sendRequest:cartUpdatingSendRequest} = useHttp();
+
   const [notification, setNotification] = useState<NotificationModel | null>(
     null
   );
@@ -25,49 +35,44 @@ function App() {
   const hideCartHandler = () => setCartIsShown(false);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      const response = await fetch(
-        "https://food-order-app-76e5f-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json"
-      );
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-      const responseData = await response.json();
-      dispatch(cartActions.replaceCart(responseData));
-    };
-    try {
-      fetchCart();
-    } catch (err) {
+    initialCartLoadingSendRequest({
+      url: "https://food-order-app-76e5f-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
+    },initialCartLoadRequestMethod);
+    if (initiateLoadingError) {
       setNotification({
         title: "Error",
-        message: "couldn't load Cart!",
         status: "error",
+        message: "Error in fetching cart items from database!",
       });
     }
-  }, [dispatch]);
+  }, [initialCartLoadingSendRequest,initialCartLoadRequestMethod,initiateLoadingError]);
 
   useEffect(() => {
-    if (isInitial || !cart.changed) {
+    if (isInitial || !debouncedValue.changed) {
       isInitial = false;
-      return
+      return;
     }
-    fetch(
-      "https://food-order-app-76e5f-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
-      { method: "PUT", body: JSON.stringify(cart) }
-    )
-      .then(() => {
-        console.log("success");
-      })
-      .catch((err) => {
-        setNotification({
-          title: "Error",
-          message: "couldn't save Cart changes!",
-          status: "error",
-        });
+    cartUpdatingSendRequest({
+      url: "https://food-order-app-76e5f-default-rtdb.asia-southeast1.firebasedatabase.app/cart.json",
+      method: "PUT",
+      body: {
+        items: debouncedValue.items,
+        totalAmount: debouncedValue.totalAmount,
+        totalQuantitiy: debouncedValue.totalQuantitiy,
+      }
+    },()=>{});
+    if(cartUpdatingError){
+      setNotification({
+        title: "Error",
+        message: "couldn't save Cart changes!",
+        status: "error",
       });
 
+    }
+        
+
     return setNotification(null);
-  }, [cart]);
+  }, [debouncedValue,cartUpdatingSendRequest,cartUpdatingError]);
 
   return (
     <Fragment>
