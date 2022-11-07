@@ -1,19 +1,21 @@
-import React,{ useContext } from "react";
+import React from "react";
+import { useDispatch} from 'react-redux';
 import ItemModel from "../../models/items";
-import CartContext from "../../Store/CartContext";
+import { cartActions } from "../../Store/cart-slice";
 import ItemAddToCart from "../FoodItems/ItemAddToCart";
 import classes from "./CartItems.module.css";
 
 const CartItems: React.FC<{ item: { item: ItemModel, amount: number } }> = (
   props
 ) => {
-    const cartCtx = useContext(CartContext);
-    const addItemHandler = (amount:number)=> cartCtx.addItem({
-      item:props.item.item,
-      amount:amount
 
-    });
-    const removeItemHandler = ()=> cartCtx.removeItem(props.item.item.id);
+  const dispatch = useDispatch();
+  const addItemHandler = (amount:number)=> dispatch(cartActions.addItem({
+    item:props.item.item,
+    amount:amount
+  }));
+  const removeItemHandler = ()=> dispatch(cartActions.removeItem(props.item.item.id));
+    
   return (
     <div className={classes.item}>
       <div
