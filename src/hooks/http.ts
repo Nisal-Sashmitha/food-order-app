@@ -23,6 +23,7 @@ function useHttp() {
         }catch(err:any){
             setError(err.message || 'Somthing went wrong!')
         }
+        setIsLoading(false);
     },[])
   return {
     error,

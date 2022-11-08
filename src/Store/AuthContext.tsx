@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+//will keep the callback funcgtion to logout on expiration time
 let logoutTimer: NodeJS.Timeout | undefined;
 
+//interface for authContext
 interface IAuthContext{
   token:string | null | undefined;
   isLoggedIn:boolean;
@@ -15,6 +17,8 @@ const AuthContext = React.createContext<IAuthContext>({
   login: (token,expirationTime) => {},
   logout: () => {},
 });
+
+
 
 const calculateRemainingTime = (expirationTime:any) => {
   const currentTime = new Date().getTime();
